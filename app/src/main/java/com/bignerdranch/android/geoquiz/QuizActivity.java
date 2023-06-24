@@ -2,6 +2,8 @@ package com.bignerdranch.android.geoquiz;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +15,7 @@ public class QuizActivity extends AppCompatActivity {
     private Button mTrueButton;
     private Button mFalseButton;
     private Button mNextButton;
+    private Button mCheatButton;
     private TextView mQuestionTextView;
     private Question[] mQuestionBank = new Question[]{
             new Question(R.string.question_australia,true),
@@ -23,8 +26,10 @@ public class QuizActivity extends AppCompatActivity {
             new Question(R.string.question_asia, true),
     };
     private int mCurrentIndex=0;
+    private boolean mISCheater;
     private static final String TAG ="QuizActivity";
     private static final String KEY_INDEX ="index";
+    private static final int REQUEST_CODE_CHEAT = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +67,42 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 mCurrentIndex=(mCurrentIndex+1)%mQuestionBank.length;
+                mISCheater=false;
                 updateQuestion();
+            }
+        });
+        //cheatButton
+        mCheatButton=(Button)findViewById(R.id.cheat_button);
+        mCheatButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                //start cheatActivity
+                boolean answerIsTrue = mQuestionBank[mCurrentIndex].isAnswerTrue();
+                Intent intent = CheatActivity.newIntent(QuizActivity.this,answerIsTrue);
+                startActivityForResult(intent,REQUEST_CODE_CHEAT);
             }
         });
         updateQuestion();
     }
+
+    /*
+    Handle the result from another activity , the CheatActivity and updates the cheating status if answer was shown
+    if result is not ok or the requestcode doesn't match, it exit the function early.
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+        if (requestCode == REQUEST_CODE_CHEAT) {
+            if (data == null) {
+                return;
+            }
+            mISCheater = CheatActivity.wasAnswerShown(data);
+        }
+    }
+
     @Override
     public void onStart(){
         super.onStart();
@@ -110,11 +146,16 @@ public class QuizActivity extends AppCompatActivity {
     private void checkAnswer(boolean userPressedTrue){
         boolean answerIsTrue = mQuestionBank[mCurrentIndex].isAnswerTrue();
         int messageResId =0;
-        if (userPressedTrue == answerIsTrue){
-            messageResId=R.string.correct_toast;
-        }else {
-            messageResId = R.string.incorrect_toast;
+        if (mISCheater){
+            messageResId =R.string.judgement_toast;
         }
-        Toast.makeText(this,messageResId,Toast.LENGTH_SHORT).show();
+        else {
+            if (userPressedTrue == answerIsTrue) {
+                messageResId = R.string.correct_toast;
+            } else {
+                messageResId = R.string.incorrect_toast;
+            }
+        }
+        Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show();
     }
 }
