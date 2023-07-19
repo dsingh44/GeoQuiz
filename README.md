@@ -1,3 +1,4 @@
 # GeoQuiz
 
-![geoquiz](https://github.com/dsingh44/GeoQuiz/assets/80799486/ff074a03-e471-405a-b580-3b1541cabe21)
+![GeoQuiz](https://github.com/dsingh44/GeoQuiz/assets/80799486/117a8075-45b7-46e1-836f-daf68d7522d8)
+
