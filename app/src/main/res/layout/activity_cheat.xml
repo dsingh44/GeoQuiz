@@ -4,18 +4,23 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:content="com.bignerdranch.android.geoquiz.CheatActivity">
+    tools:content="com.bignerdranch.android.geoquiz.CheatActivity"
+    android:background="#F2F2F2">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="24dp"
-        android:text="@string/warning_text"/>
+        android:text="@string/warning_text"
+        android:textSize="18sp"
+        android:textColor="#3366cc"/>
     <TextView
         android:id="@+id/answer_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="24dp"
+        android:textSize="18sp"
+        android:textColor="#009900"
         tools:text="Answer"/>
 
     <Button
