@@ -1,7 +1,7 @@
 # GeoQuiz Android App
 
 ## Introduction
-Geoquiz is a simple Android quiz app that challenges users with geography-related true or false questions. Users can test their knowledge about various facts related to countries, oceans, and more.
+Geoquiz is a Android quiz app that challenges users with geography-related true or false questions. Users can test their knowledge about various facts related to countries, oceans, and more.
 
 ## Features
 - True or false questions about geography-related topics.
@@ -19,4 +19,3 @@ Geoquiz is a simple Android quiz app that challenges users with geography-relate
 
 ## License
 GeoQuiz is released under the MIT License. You are free to modify and use this app.
-
